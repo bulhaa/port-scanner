@@ -20,16 +20,17 @@ def get_open_ports(target, port_range, verbose = False):
     ip_addr = ip_list[0]
     
     scanner.scan(ip_addr, f'22-445', '-v -sS')
-    # scanner.scan(ip_addr, f'{port_range[0]}-{port_range[1]}', '-sS', sudo=True)
+    # scanner.scan(ip_addr, f'{port_range[0]}-{port_range[1]}', '-sS')
     
     
     
-    
+    print('scanner[ip_addr][tcp]: ', scanner[ip_addr]['tcp'])
     open_ports_within_range = []
-    open_ports = list(scanner[ip_addr]['tcp'].keys())
-    for port in open_ports:
-        if port_range[0] <= port and port <= port_range[1]:
-            open_ports_within_range.append(port)
+    if "tcp" in scanner[ip_addr]:
+        open_ports = list(scanner[ip_addr]['tcp'].keys())
+        for port in open_ports:
+            if port_range[0] <= port and port <= port_range[1]:
+                open_ports_within_range.append(port)
     
     open_ports = open_ports_within_range
 
@@ -49,5 +50,5 @@ def get_open_ports(target, port_range, verbose = False):
         return(open_ports)
 
 # r = get_open_ports("192.168.0.1", [75, 80])
-# r = get_open_ports("209.216.230.240", [440, 445], False)
-# print('r: ', r)
+r = get_open_ports("www.stackoverflow.com", [20, 500], False)
+print('r: ', r)
